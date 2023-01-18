@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - staging
+name: git-pr-release
+jobs:
+  git-pr-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+      - run: gem install --no-document git-pr-release
+      - run: git-pr-release --squashed
+        env:
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: production
+          GIT_PR_RELEASE_BRANCH_STAGING: staging
+          GIT_PR_RELEASE_LABELS: pr-release
+          TZ: Asia/Tokyo
+
+
