@@ -16,12 +16,14 @@ jobs:
       !github.event.issue.pull_request &&
       github.event.comment.body == '/prepare' &&
       !github.event.issue.closed_at &&
-      github.event.issue.state == 'open' &&
-      github.event.issue.title == 'release' 
+      github.event.issue.state == 'open' 
     runs-on: ubuntu-latest
     name: Prepare Release
 
     steps:
+      - name: View issue information
+        run: |
+          echo "Issue title: ${{ github.event.issue.title }}"
       - uses: actions/checkout@master
         with:
           fetch-depth: 0
