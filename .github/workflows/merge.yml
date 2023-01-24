@@ -11,12 +11,12 @@ jobs:
     # 2. The comment was exactly "/merge" sans the quotes.
     # 3. The PR is open.
     # 4. The comment was made by @samkit-jain.
+      # && github.event.comment.user.login == 'samkit-jain'
     if: |
       github.event.issue.pull_request &&
       github.event.comment.body == '/merge' &&
       !github.event.issue.closed_at &&
       github.event.issue.state == 'open'
-      # && github.event.comment.user.login == 'samkit-jain'
     runs-on: ubuntu-latest
     name: Merge PR
 
