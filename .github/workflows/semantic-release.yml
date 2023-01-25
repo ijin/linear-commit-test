@@ -26,7 +26,7 @@ jobs:
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Post a success/failure comment to the issue.
       - name: Add comment to isssue
