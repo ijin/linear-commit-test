@@ -29,7 +29,6 @@ jobs:
         id: sync-branch
         shell: bash
         env:
-          MERGEABLE_STATUS: ${{ fromJson(steps.get-pr-details.outputs.data).mergeable_state }}
           BASE_BRANCH: production
           HEAD_BRANCH: staging
         run: |
