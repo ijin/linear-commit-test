@@ -6,10 +6,8 @@ on:
       - staging
 
 jobs:
-  pr_release:
+  git-pr-release:
     runs-on: ubuntu-latest
-    name: PR Release
-
     steps:
       - uses: actions/checkout@master
         with:
@@ -25,5 +23,3 @@ jobs:
           GIT_PR_RELEASE_BRANCH_STAGING: staging
           GIT_PR_RELEASE_LABELS: pr-release
           TZ: Asia/Tokyo
-
-
