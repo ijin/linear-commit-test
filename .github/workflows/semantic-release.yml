@@ -1,4 +1,4 @@
-name: Prepare Release
+name: Deploy Release
 
 on:
   issue_comment:
