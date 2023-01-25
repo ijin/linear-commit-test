@@ -38,7 +38,7 @@ jobs:
           git pull origin $HEAD_BRANCH
           git checkout $BASE_BRANCH
           git pull origin $BASE_BRANCH
-          git rebase $HEAD_BRANCH
+          git merge $HEAD_BRANCH $BASE_BRANCH
           git push origin $BASE_BRANCH
           echo "::set-output name=message::'PR merged in succesfully.'"
 
@@ -50,7 +50,7 @@ jobs:
           route: POST /repos/{repository}/issues/{issue_number}/comments
           repository: ${{ github.repository }}
           issue_number: ${{ github.event.issue.number }}
-          body: Prepare release success. taging synced to production
+          body: Prepare release success. staging synced to production
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
