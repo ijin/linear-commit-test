@@ -1,0 +1,32 @@
+name: Prepare Release
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  deploy_release:
+    # Run only if
+    # 1. The comment was made on an Issue 
+    # 2. The comment was exactly "/prepare deploy" sans the quotes.
+    # 3. The Issue is open.
+    # 4. The Issue name is
+      # && github.event.comment.user.login == 'samkit-jain'
+    if: |
+      !github.event.issue.pull_request &&
+      github.event.comment.body == '/deploy' &&
+      !github.event.issue.closed_at &&
+      github.event.issue.state == 'open' &&
+      github.event.issue.title == 'release'
+    runs-on: ubuntu-latest
+    name: Deploy Release
+
+    steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
