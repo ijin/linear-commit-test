@@ -25,16 +25,20 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 0
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: 3.1
-      - run: gem install --no-document git-pr-release
-      - run: git-pr-release --squashed
+      - name: Sync branch
+        id: sync-branch
+        shell: bash
         env:
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE_BRANCH_PRODUCTION: production
-          GIT_PR_RELEASE_BRANCH_STAGING: staging
-          GIT_PR_RELEASE_LABELS: pr-release
-          TZ: Asia/Tokyo
-
-
+          MERGEABLE_STATUS: ${{ fromJson(steps.get-pr-details.outputs.data).mergeable_state }}
+          BASE_BRANCH: production
+          HEAD_BRANCH: staging
+        run: |
+          git config --global user.email "<>"
+          git config --global user.name "GitHub Actions"
+          git checkout $HEAD_BRANCH
+          git pull origin $HEAD_BRANCH
+          git checkout $BASE_BRANCH
+          git pull origin $BASE_BRANCH
+          git rebase $HEAD_BRANCH
+          git push origin $BASE_BRANCH
+          echo "::set-output name=message::'PR merged in succesfully.'"

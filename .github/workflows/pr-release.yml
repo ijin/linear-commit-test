@@ -1,0 +1,40 @@
+name: PR Release
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr_release:
+    # Run only if
+    # 1. The comment was made on an Issue 
+    # 2. The comment was exactly "/prepare deploy" sans the quotes.
+    # 3. The Issue is open.
+    # 4. The Issue name is
+      # && github.event.comment.user.login == 'samkit-jain'
+    if: |
+      !github.event.issue.pull_request &&
+      github.event.comment.body == '/pr' &&
+      !github.event.issue.closed_at &&
+      github.event.issue.state == 'open' &&
+      github.event.issue.title == 'prepare release'
+    runs-on: ubuntu-latest
+    name: PR Release
+
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+      - run: gem install --no-document git-pr-release
+      - run: git-pr-release --squashed
+        env:
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: production
+          GIT_PR_RELEASE_BRANCH_STAGING: staging
+          GIT_PR_RELEASE_LABELS: pr-release
+          TZ: Asia/Tokyo
+
+
