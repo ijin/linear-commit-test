@@ -17,7 +17,7 @@ jobs:
       github.event.comment.body == '/prepare' &&
       !github.event.issue.closed_at &&
       github.event.issue.state == 'open' &&
-      github.event.issue.title == 'prepare release'
+      github.event.issue.title == 'release'
     runs-on: ubuntu-latest
     name: Prepare Release
 
