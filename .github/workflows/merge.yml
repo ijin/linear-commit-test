@@ -25,7 +25,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-        env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
 
@@ -37,7 +36,6 @@ jobs:
           route: GET /repos/{repository}/pulls/{pull_number}
           repository: ${{ github.repository }}
           pull_number: ${{ github.event.issue.number }}
-        env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Merge (rebase) the PR if it is allowed.
