@@ -39,6 +39,7 @@ jobs:
             @semantic-release/github
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_REF: refs/heads/production
 
       # Post a success/failure comment to the issue.
       - name: Add comment to isssue
