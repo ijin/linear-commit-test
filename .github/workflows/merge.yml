@@ -43,6 +43,7 @@ jobs:
         id: merge-status
         shell: bash
         env:
+          USER: ijin
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           MERGEABLE_STATUS: ${{ fromJson(steps.get-pr-details.outputs.data).mergeable_state }}
           BASE_BRANCH: ${{ fromJson(steps.get-pr-details.outputs.data).base.ref }}
@@ -51,7 +52,6 @@ jobs:
           if [ "$MERGEABLE_STATUS" = "clean" ]; then
             git config --global user.email "<>"
             git config --global user.name "GitHub Actions"
-            git config remote.origin.url "https://$GITHUB_TOKEN@github.com/${{ github.repository }}"
 
 
             git checkout $HEAD_BRANCH
@@ -59,6 +59,8 @@ jobs:
             git checkout $BASE_BRANCH
             git pull origin $BASE_BRANCH
             git rebase $HEAD_BRANCH
+
+            git remote set-url origin "https://$USER:$GITHUB_TOKEN@github.com/${{ github.repository }}"
             git push origin $BASE_BRANCH
             echo "::set-output name=message::'PR merged in succesfully.'"
           else
