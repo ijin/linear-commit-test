@@ -27,7 +27,8 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         with:
           ref: production
-          branch: production
+          branches: |
+            ['production']
           extra_plugins: |
             @semantic-release/commit-analyzer
             @semantic-release/release-notes-generator
@@ -37,7 +38,7 @@ jobs:
 
       # Post a success/failure comment to the issue.
       - name: Add comment to isssue
-        if: ${{ success() }}
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{repository}/issues/{issue_number}/comments
@@ -49,7 +50,7 @@ jobs:
 
       # Post a failure message when any of the previous steps fail.
       - name: Add failure comment to issue
-        if: ${{ failure() }}
+        if: steps.semantic.outputs.new_release_published == 'false'
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{repository}/issues/{issue_number}/comments
