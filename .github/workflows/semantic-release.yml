@@ -20,9 +20,6 @@ jobs:
       github.event.issue.title == 'release'
     runs-on: ubuntu-latest
     name: Deploy Release
-
-    steps:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
