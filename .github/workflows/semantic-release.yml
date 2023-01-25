@@ -1,25 +1,25 @@
-name: Deploy Release
+name: Release
 
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  deploy_release:
+  release:
     # Run only if
     # 1. The comment was made on an Issue 
-    # 2. The comment was exactly "/prepare deploy" sans the quotes.
+    # 2. The comment was exactly "/release" sans the quotes.
     # 3. The Issue is open.
     # 4. The Issue name is
       # && github.event.comment.user.login == 'samkit-jain'
     if: |
       !github.event.issue.pull_request &&
-      github.event.comment.body == '/deploy' &&
+      github.event.comment.body == '/release' &&
       !github.event.issue.closed_at &&
       github.event.issue.state == 'open' &&
       github.event.issue.title == 'release'
     runs-on: ubuntu-latest
-    name: Deploy Release
+    name: Release
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
           route: POST /repos/{repository}/issues/{issue_number}/comments
           repository: ${{ github.repository }}
           issue_number: ${{ github.event.issue.number }}
-          body: Deploy success.
+          body: Release success.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,6 +48,6 @@ jobs:
           route: POST /repos/{repository}/issues/{issue_number}/comments
           repository: ${{ github.repository }}
           issue_number: ${{ github.event.issue.number }}
-          body: Deploy failed. Check the Actions execution tab for details.
+          body: Release failed. Check the Actions execution tab for details.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
