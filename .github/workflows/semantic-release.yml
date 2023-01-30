@@ -32,6 +32,8 @@ jobs:
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
         id: semantic   # Need an `id` for output variables
+        with:
+          branch: production
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REF: refs/heads/production
