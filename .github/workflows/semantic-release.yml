@@ -33,7 +33,6 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         id: semantic   # Need an `id` for output variables
         with:
-          branch: production
           branches: |
             ['production']
         env:
