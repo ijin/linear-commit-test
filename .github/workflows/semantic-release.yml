@@ -33,6 +33,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         id: semantic   # Need an `id` for output variables
         with:
+          branch: production
           branches: |
             ['production']
           extra_plugins: |
@@ -45,7 +46,7 @@ jobs:
 
       # Post a success/failure comment to the issue.
       - name: Add comment to isssue
-        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true' && github.event_name == 'issue_comment'
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{repository}/issues/{issue_number}/comments
@@ -57,7 +58,7 @@ jobs:
 
       # Post a failure message when any of the previous steps fail.
       - name: Add failure comment to issue
-        if: steps.semantic.outputs.new_release_published == 'false'
+        if: steps.semantic.outputs.new_release_published == 'false' && github.event_name == 'issue_comment'
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{repository}/issues/{issue_number}/comments
