@@ -39,7 +39,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Semantic Release
-        if: github.event_name == 'issue_comment'
+        if: github.event_name != 'issue_comment'
         uses: cycjimmy/semantic-release-action@v3
         id: semantic   # Need an `id` for output variables
         with:
