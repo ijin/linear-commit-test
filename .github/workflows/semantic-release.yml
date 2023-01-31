@@ -35,6 +35,8 @@ jobs:
         run: |
           set -x
           gh workflow run Release --ref production
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Semantic Release
         if: github.event_name == 'issue_comment'
