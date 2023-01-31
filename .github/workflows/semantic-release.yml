@@ -29,6 +29,10 @@ jobs:
           fetch-depth: 0
           ref: production
 
+      - name: Override GITHUB_REF
+        if: github.event_name == 'issue_comment'
+        run: echo "GITHUB_REF=refs/heads/production" >> $GITHUB_ENV
+
       - name: Debug
         run: |
           echo "GITHUB_EVENT_NAME                         =" "${GITHUB_EVENT_NAME}"
